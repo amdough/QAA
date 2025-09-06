@@ -11,6 +11,9 @@
 *.bam
 *.gtf
 *.gff
+SRR*
+*.fasta
+*.metrics
 
 # output files
 *.err

@@ -1,0 +1,9 @@
+Pdf report details
+You should create a pdf file (using Rmarkdown) with a high-level report including:
+
+ all requested plots
+ answers to questions
+ mapped/unmapped read counts from PS8 script (in a nicely formatted table)
+ It should be named QAA_report.pdf
+ Include at the top level of your repo
+ ALSO, submit it to Canvas.

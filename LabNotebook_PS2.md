@@ -204,9 +204,19 @@ For **CcoxCrh_comrhy111_EO_adult_1_2.fastq.gz**
 
 [Include quality score distribution plot, a comparison to FastQC, comments on any differences between your quality score plotting and FastQC]
 
+--part1.2.py
+--part1.2.sh
+----imported bioinfo.py
+
+**NEED TO ADD PLOTS**
+
 a. CcoxCrh_comrhy61_EO_6cm_1_1.fastq.gz
 
+b. CcoxCrh_comrhy61_EO_6cm_1_2.fastq.gz
 
+c. CcoxCrh_comrhy111_EO_adult_1_1.fastq.gz
+
+d. CcoxCrh_comrhy111_EO_adult_1_2.fastq.gz
 
 
 
