@@ -12,6 +12,10 @@
 *.gtf
 *.gff
 
+# output files
+*.err
+*.out
+
 # STAR files
 *.out.tab
 _STARtmp/
