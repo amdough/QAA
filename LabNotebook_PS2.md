@@ -183,22 +183,19 @@ fastqc -o ./fastqc CcoxCrh_comrhy111_EO_adult_1_2.fastq.gz  # read 2
 
 For **CcoxCrh_comrhy61_EO_6cm_1_1.fastq.gz**:
 
-![Per Base N Content for CcoxCrh_comrhy61_EO_6cm_1_1.fastq.gz](fastqc/perbaseN_CcoxCrh_comrhy61_EO_6cm_1_1_fastqc.png)
-
-
+![perbaseN- CC61_R1](part1/fastqc/perbaseN_CcoxCrh_comrhy61_EO_6cm_1_1_fastqc.png)
 
 For **CcoxCrh_comrhy61_EO_6cm_1_2.fastq.gz**
 
-![Per Base N Content for CcoxCrh_comrhy61_EO_6cm_1_2_fastqc.gz](fastqc/perbaseN_CcoxCrh_comrhy61_EO_6cm_1_2_fastqc.png)
+![perbaseN- CC61_R2](part1/fastqc/perbaseN_CcoxCrh_comrhy61_EO_6cm_1_2_fastqc.png)
 
 For **CcoxCrh_comrhy111_EO_adult_1_1.fastq.gz**
 
-![Per Base N CcoxCrh_comrhy111_1_1](fastqc/perbaseN_CcoxCrh_comrhy111_1.png)
+![perbaseN-CC111_R1](part1/fastqc/perbaseN_CcoxCrh_comrhy111_1.png)
 
 For **CcoxCrh_comrhy111_EO_adult_1_2.fastq.gz**
 
-![Per Base N CcoxCrh_comrhy111_EO_adult_1_2](fastqc/perbaseN_CcoxCrh_comrhy111_2.png)
-
+![perbaseN-CC111_R2](part1/fastqc/perBaseSeqQual_CcoxCrh_comrhy111_2.png)
 
 3. Run your quality score plotting script from your Demultiplexing assignment in Bi622. (Make sure you're using the "running sum" strategy!!) Describe how the `FastQC` quality score distribution plots compare to your own. If different, propose an explanation. Also, does the run time differ? Mem/CPU usage? If so, why?
 
@@ -291,6 +288,8 @@ Manually searching for the adapters:
 470873
 ```zcat CcoxCrh_comrhy111_EO_adult_1_2.fastq.gz | grep "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT" | wc -l```
 - but that is so few sequences it feels like that can't be right...
+
+
 
 (base) [amdo@n0349 QAA]$ zcat CcoxCrh_comrhy111_EO_adult_1_1.fastq.gz | grep "AGATCGGAAGAGCACACGTCTGAACTCCAGTCA" | wc -l
 470873
@@ -1072,6 +1071,7 @@ Total written (filtered):  13,045,142,790 bp (99.1%)
   Read 1: 6,522,268,610 bp
   Read 2: 6,522,874,180 bp
 
+![Ccom111 R1 v R2 post trim](part2/images/Ccom111_R1vR2.png "Ccom111 R1 v R2 post trimming of adapter sequences.")
 
 
 # 09-05-25
@@ -1102,6 +1102,8 @@ CcoxCrh_comrhy61_EO_6cm_1_1.fastq.gz \
   MINLEN:35
 ```
 Output: 
+
+
 
 TrimmomaticPE: Started with arguments:
  CcoxCrh_comrhy61_EO_6cm_1_1.fastq.gz CcoxCrh_comrhy61_EO_6cm_1_2.fastq.gz CcoxCrh_comrhy61_EO_6cm_1_1_paired.fq.gz CcoxCrh_comrhy61_EO_6cm_1_1_unpaired.fq.gz CcoxCrh_comrhy61_EO_6cm_1_2_paired.fq.gz CcoxCrh_comrhy61_EO_6cm_1_2_unpaired.fq.gz LEADING:3 TRAILING:3 SLIDINGWINDOW:5:15 MINLEN:35
@@ -1479,7 +1481,7 @@ Command exited with non-zero status 1
 
 -- reran staralign.sh
 
--- then rerun picard.sh
+-- then reran picard.sh
 
 --picard was successful? I think? 
 
@@ -1597,14 +1599,97 @@ Runtime.totalMemory()=536870912
 
 14. Count deduplicated reads that map to features using `htseq-count`. You should run htseq-count twice: once with `--stranded=yes` and again with `--stranded=reverse`. Use default parameters otherwise. You may need to use the `-i` parameter for this run.
 
+### below in .sh script: htseq.sh
+
 ```{bash, eval=FALSE}
+
+
+ # general htseq syntax: 
 htseq-count -s yes --type exon --i gene_id -m union samfile path_to_gtf > outfile 
+
+
+# Run with stranded = yes --> Ccom61 R1
+htseq-count -s yes -t exon -i gene_id -m union /projects/bgmp/amdo/bioinfo/Bi623/PS2/QAA/part3/Ccom61_nodupe.sam /projects/bgmp/amdo/bioinfo/Bi623/PS2/QAA/part3/campylomormyrus.gtf > CCom61_counts_stranded_yes.txt
+
+# Run with stranded = reverse --> Ccom61 R2
+htseq-count -s reverse -t exon -i gene_id -m union /projects/bgmp/amdo/bioinfo/Bi623/PS2/QAA/part3/Ccom61_nodupe.sam /projects/bgmp/amdo/bioinfo/Bi623/PS2/QAA/part3/campylomormyrus.gtf > Ccom61_counts_stranded_reverse.txt
+
+# Run with stranded = yes --> Ccom111 R1
+htseq-count -s yes -t exon -i gene_id -m union /projects/bgmp/amdo/bioinfo/Bi623/PS2/QAA/part3/Ccom111_nodupe.sam /projects/bgmp/amdo/bioinfo/Bi623/PS2/QAA/part3/campylomormyrus.gtf> Ccom111_counts_stranded_yes.txt
+
+# Run with stranded = reverse --> Ccom111 R2
+htseq-count -s reverse -t exon -i gene_id -m union /projects/bgmp/amdo/bioinfo/Bi623/PS2/QAA/part3/Ccom111_nodupe.sam /projects/bgmp/amdo/bioinfo/Bi623/PS2/QAA/part3/campylomormyrus.gtf > Ccom111_counts_stranded_reverse.txt
 ```
+
+#### -i gene_id flag did not work!! error: 
+    Error processing GFF file (line 144 of file /projects/bgmp/amdo/bioinfo/Bi623/PS2/QAA/part3/campylomormyrus.gtf):
+      The attribute string seems to contain mismatched quotes.
+      [Exception type: ValueError, raised in features.py:194]
+    Command exited with non-zero status 1
+    1.04user 0.09system 0:04.22elapsed 26%CPU (0avgtext+0avgdata 41396maxresident)k
+    0inputs+0outputs (0major+10011minor)pagefaults 0swaps
+    Error processing GFF file (line 144 of file /projects/bgmp/amdo/bioinfo/Bi623/PS2/QAA/part3/campylomormyrus.gtf):
+      The attribute string seems to contain mismatched quotes.
+      [Exception type: ValueError, raised in features.py:194]
+    Command exited with non-zero status 1
+    1.02user 0.03system 0:00.17elapsed 609%CPU (0avgtext+0avgdata 41388maxresident)k
+    0inputs+0outputs (0major+10009minor)pagefaults 0swaps
+    Error processing GFF file (line 144 of file /projects/bgmp/amdo/bioinfo/Bi623/PS2/QAA/part3/campylomormyrus.gtf):
+      The attribute string seems to contain mismatched quotes.
+      [Exception type: ValueError, raised in features.py:194]
+    Command exited with non-zero status 1
+    1.01user 0.04system 0:00.17elapsed 599%CPU (0avgtext+0avgdata 41364maxresident)k
+    0inputs+0outputs (0major+10003minor)pagefaults 0swaps
+    Error processing GFF file (line 144 of file /projects/bgmp/amdo/bioinfo/Bi623/PS2/QAA/part3/campylomormyrus.gtf):
+      The attribute string seems to contain mismatched quotes.
+      [Exception type: ValueError, raised in features.py:194]
+    Command exited with non-zero status 1
+    1.01user 0.04system 0:00.17elapsed 618%CPU (0avgtext+0avgdata 41468maxresident)k
+    0inputs+0outputs (0major+10002minor)pagefaults 0swaps
+
+--> htseq crying about a .gtf file, wow -- talked to hope and used -i Parent for the -i flag instead like so: 
+
+        conda activate qaa 
+
+        # Run with stranded = yes --> Ccom61 R1
+        /usr/bin/time htseq-count -s yes -t exon -i Parent -m union /projects/bgmp/amdo/bioinfo/Bi623/PS2/QAA/part3/Ccom61_nodupe.sam /projects/bgmp/amdo/bioinfo/Bi623/PS2/QAA/part3/campylomormyrus.gff > CCom61_counts_stranded_yes.txt
+
+        # Run with stranded = reverse --> Ccom61 R2
+        /usr/bin/time htseq-count -s reverse -t exon -i Parent -m union /projects/bgmp/amdo/bioinfo/Bi623/PS2/QAA/part3/Ccom61_nodupe.sam /projects/bgmp/amdo/bioinfo/Bi623/PS2/QAA/part3/campylomormyrus.gff > Ccom61_counts_stranded_reverse.txt
+
+        # Run with stranded = yes --> Ccom111 R1
+        /usr/bin/time htseq-count -s yes -t exon -i Parent -m union /projects/bgmp/amdo/bioinfo/Bi623/PS2/QAA/part3/Ccom111_nodupe.sam /projects/bgmp/amdo/bioinfo/Bi623/PS2/QAA/part3/campylomormyrus.gff > Ccom111_counts_stranded_yes.txt
+
+        # Run with stranded = reverse --> Ccom111 R2
+        /usr/bin/time htseq-count -s reverse -t exon -i Parent -m union /projects/bgmp/amdo/bioinfo/Bi623/PS2/QAA/part3/Ccom111_nodupe.sam /projects/bgmp/amdo/bioinfo/Bi623/PS2/QAA/part3/campylomormyrus.gff > Ccom111_counts_stranded_reverse.txt   
+
+
+out/err: 
+
+
+#### 15: 
+
 
 15. Demonstrate convincingly whether or not the data are from "strand-specific" RNA-Seq libraries **and** which `stranded=` parameter should you use for counting your reads for a future differential gene expression analyses. Include any commands/scripts used. Briefly describe your evidence, using quantitative statements (e.g. "I propose that these data are/are not strand-specific, because X% of the reads are y, as opposed to z."). This [kit](https://www.revvity.com/product/nex-rapid-dir-rna-seq-kit-2-0-8rxn-nova-5198-01) was used during library preparation. This [paper](https://academic.oup.com/bfg/article/19/5-6/339/5837822) may provide helpful information.
 
   > [!TIP]
   > Recall ICA4 from Bi621.
+
+
+
+$ grep -v "^__" CcoxCrh_comrhy61_EO_6cm_htseqcounts_stranded_yes.txt | awk '{s+=$2} END {print s}'
+776832
+
+$ grep -v "^__" CcoxCrh_comrhy61_EO_6cm_htseqcounts_stranded_reverse.txt | awk '{s+=$2} END {print s}'
+18028922
+
+$ grep -v "^__" CcoxCrh_comrhy111_EO_adult_htseqcounts_stranded_yes.txt | awk '{s+=$2} END {print s}'
+176970
+
+$ grep -v "^__" CcoxCrh_comrhy111_EO_adult_htseqcounts_stranded_reverse.txt | awk '{s+=$2} END {print s}'
+3801513
+
+
 
 [Describe whether your reads are "string-specific", why you think they are, any evidence, and which stranded parameter is appropriate and why]
 
@@ -1647,3 +1732,14 @@ The three parts of the assignment should be clearly labeled. Be sure to title an
 
 
 
+** created envr 'RMD' to hopefully knit files easier 
+R knit command: 
+rmarkdown::render("QAA_REPORT.Rmd", output_format = "pdf_document")
+
+
+| ID  |  Total Reads |  Reads with Adapters | % |
+|-----|--------------|----------------------|---|
+|Cc111R1| 6,975,938 | 1,514,521 | 21.7% |
+|Cc111R2| 6,975,938 | 1,507,229 | 21.65 |
+|Cc61R1 | 43,867,295 | 3,528,795 | 8% |
+|Cc61R2 | 43,867,295 | 3,809,704 | 8.7% | 

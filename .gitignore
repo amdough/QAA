@@ -14,10 +14,24 @@
 SRR*
 *.fasta
 *.metrics
+*.txt
+*.tab 
+*_STAR_
+part3/campylomormyrus_STAR_2.7.11b
+*_fastqc
+*.zip
+*.html
+*.csv
+
 
 # output files
 *.err
 *.out
+
+!part3/htseqfiles/CcoxCrh_comrhy111_EO_adult_htseqcounts_stranded_yes.txt
+!part3/htseqfiles/CcoxCrh_comrhy111_EO_adult_htseqcounts_stranded_reverse.txt
+!part3/htseqfiles/CcoxCrh_comrhy61_EO_6cm_htseqcounts_stranded_reverse.txt
+!/part3/htseqfiles/CcoxCrh_comrhy61_EO_6cm_htseqcounts_stranded_yes.txt
 
 # STAR files
 *.out.tab

@@ -13,4 +13,4 @@
 mamba activate agat
 
 
-/usr/bin/time agat_convert_sp_gff2gtf.pl --gff campylomormyrus.gff -o campylomormyrus.gtf
+/usr/bin/time agat_convert_sp_gff2gtf.pl --gff campylomormyrus.gff -o campylomormyrus.gtf --gtf 
